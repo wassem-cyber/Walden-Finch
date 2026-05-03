@@ -1,62 +1,177 @@
 :root {
-  --bg: #f7f3ec;
-  --ink: #2a2a2a;
-  --accent: #6b5b3e;
-  --muted: #7a7466;
+  /* Brand palette */
+  --navy: #253a75;
+  --teal: #406266;
+  --forest: #4e6424;
+  --olive: #8b8835;
+  --mustard: #eda731;
+  --terracotta: #df5846;
+  --peach: #ecb987;
+  --coral: #e09490;
+  --blush: #f1d2bf;
+  --steel: #2a78a1;
+  --sage: #8eb1ac;
+  --mauve: #c289a9;
+  --raspberry: #b04372;
+
+  /* Surfaces */
+  --bg: #fbf6ee;
+  --bg-soft: #f3ece0;
+  --ink: #1a1a1a;
+  --ink-soft: #4a4a4a;
+  --rule: rgba(37, 58, 117, 0.12);
+
+  /* Type */
+  --font-display: 'Montserrat', system-ui, sans-serif;
+  --font-serif: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-script: 'Borel', cursive;
+  --font-body: 'Alegreya Sans', system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; }
 
+html, body { margin: 0; padding: 0; }
+
 body {
-  margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-body);
+  font-weight: 300;
   background: var(--bg);
   color: var(--ink);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-.site-header {
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Hero */
+.hero {
   text-align: center;
-  padding: 4rem 1rem 2rem;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding: 4rem 0 2.5rem;
 }
 
-.brand h1 {
-  font-size: 2.5rem;
-  margin: 0;
-  letter-spacing: 0.04em;
-  color: var(--accent);
+.logo-frame {
+  display: inline-block;
+  background: #000;
+  padding: 0;
+  border-radius: 4px;
+  box-shadow: 0 8px 32px rgba(37, 58, 117, 0.15);
+  overflow: hidden;
+  line-height: 0;
+}
+
+.logo {
+  display: block;
+  width: 220px;
+  height: auto;
+}
+
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  letter-spacing: 0.18em;
+  margin: 2rem 0 0.5rem;
+  color: var(--navy);
 }
 
 .tagline {
-  margin: 0.5rem 0 0;
-  color: var(--muted);
+  font-family: var(--font-script);
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  color: var(--terracotta);
+  margin: 0 0 0.25rem;
+  line-height: 1.2;
+}
+
+.origin {
+  font-family: var(--font-serif);
   font-style: italic;
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  margin: 0.5rem 0 0;
+  letter-spacing: 0.04em;
 }
 
+/* Pattern strips */
+.pattern-strip {
+  height: 90px;
+  margin: 1.5rem 0;
+  background-image: url('assets/pattern-navy-teal.png');
+  background-size: 90px 90px;
+  background-repeat: repeat-x;
+  background-position: center;
+  opacity: 0.92;
+}
+
+.pattern-strip--alt {
+  background-image: url('assets/pattern-coral-blush.png');
+}
+
+/* Main */
 main {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: 1rem 0;
 }
 
-.hero {
+.coming-soon {
   text-align: center;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 2rem 0;
 }
 
-.hero h2 {
-  font-size: 1.75rem;
-  margin: 0 0 0.75rem;
+.section-eyebrow {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--forest);
+  margin: 0 0 1.25rem;
 }
 
-.hero p {
-  color: var(--muted);
+.lede {
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+  color: var(--ink);
+  margin: 0 0 2rem;
+  line-height: 1.55;
 }
 
+.contact {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.contact a {
+  color: var(--navy);
+  text-decoration: none;
+  border-bottom: 1px solid var(--navy);
+  padding-bottom: 1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.contact a:hover {
+  color: var(--terracotta);
+  border-bottom-color: var(--terracotta);
+}
+
+/* Footer */
 .site-footer {
   text-align: center;
-  padding: 2rem 1rem;
-  color: var(--muted);
-  font-size: 0.875rem;
-  border-top: 1px solid rgba(0,0,0,0.06);
+  padding: 2.5rem 0 3rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 2.5rem 0 1.5rem; }
+  .logo { width: 170px; }
+  .pattern-strip { height: 64px; background-size: 64px 64px; }
 }

@@ -4,27 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Walden &amp; Finch — Handcrafted Soaps &amp; Candles</title>
-  <meta name="description" content="Walden & Finch — small-batch handcrafted soaps and candles." />
+  <meta name="description" content="Walden & Finch — small-batch handcrafted soaps and candles, made in New York." />
+  <link rel="icon" type="image/png" href="assets/logo-black.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@300;400;500&family=Borel&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand">
-      <h1>Walden &amp; Finch</h1>
+  <div class="page">
+    <header class="hero">
+      <div class="logo-frame">
+        <img src="assets/logo-black.png" alt="Walden & Finch logo — finches on branches" class="logo" />
+      </div>
+      <h1 class="brand-name">WALDEN &amp; FINCH</h1>
       <p class="tagline">Handcrafted soaps &amp; candles</p>
-    </div>
-  </header>
+      <p class="origin">made in New York</p>
+    </header>
 
-  <main>
-    <section class="hero">
-      <h2>Coming soon</h2>
-      <p>Small-batch goods, made with care. Site under construction.</p>
-    </section>
-  </main>
+    <div class="pattern-strip" aria-hidden="true"></div>
 
-  <footer class="site-footer">
-    <p>&copy; <span id="year"></span> Walden &amp; Finch</p>
-  </footer>
+    <main>
+      <section class="coming-soon">
+        <h2 class="section-eyebrow">Coming soon</h2>
+        <p class="lede">
+          Small-batch goods, poured and cured by hand. Soy + beeswax candles,
+          natural soaps, and seasonal scents — arriving shortly.
+        </p>
+        <p class="contact">
+          For wholesale or to be notified at launch:
+          <a href="mailto:hello@waldenandfinch.com">hello@waldenandfinch.com</a>
+        </p>
+      </section>
+    </main>
+
+    <div class="pattern-strip pattern-strip--alt" aria-hidden="true"></div>
+
+    <footer class="site-footer">
+      <p>&copy; <span id="year"></span> Walden &amp; Finch · New York</p>
+    </footer>
+  </div>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
