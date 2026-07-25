@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Fitness — Walden &amp; Finch</title>
+  <meta name="description" content="Private nutrition &amp; calorie tracker." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#253a75" />
+  <link rel="icon" type="image/png" href="../assets/logo-black.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fitness.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="../index.html" title="Walden &amp; Finch">
+          <img src="../assets/logo-black.png" alt="" class="brand-logo" />
+          <span class="brand-text">Fitness</span>
+        </a>
+        <div class="date-nav">
+          <button id="prevDay" class="icon-btn" aria-label="Previous day">‹</button>
+          <button id="datePick" class="date-label" aria-label="Pick date">Today</button>
+          <button id="nextDay" class="icon-btn" aria-label="Next day">›</button>
+          <input type="date" id="dateInput" class="date-hidden" />
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- ===================== TODAY / DIARY ===================== -->
+      <section class="view" id="view-today">
+        <!-- Calorie budget card -->
+        <div class="budget-card">
+          <div class="ring-wrap">
+            <svg viewBox="0 0 120 120" class="ring">
+              <circle class="ring-track" cx="60" cy="60" r="52"></circle>
+              <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="52"></circle>
+            </svg>
+            <div class="ring-center">
+              <span class="ring-num" id="remainingNum">0</span>
+              <span class="ring-label" id="remainingLabel">remaining</span>
+            </div>
+          </div>
+          <div class="budget-breakdown">
+            <div class="bd-row"><span class="bd-key">Goal</span><span class="bd-val" id="bdGoal">0</span></div>
+            <div class="bd-op">−</div>
+            <div class="bd-row"><span class="bd-key">Food</span><span class="bd-val" id="bdFood">0</span></div>
+            <div class="bd-op">+</div>
+            <div class="bd-row"><span class="bd-key">Exercise</span><span class="bd-val" id="bdExercise">0</span></div>
+            <div class="bd-op">=</div>
+            <div class="bd-row bd-remaining"><span class="bd-key">Remaining</span><span class="bd-val" id="bdRemaining">0</span></div>
+          </div>
+        </div>
+
+        <!-- Macros -->
+        <div class="macros">
+          <div class="macro">
+            <div class="macro-bar"><span id="pBar" class="macro-fill pf"></span></div>
+            <div class="macro-meta"><b id="pVal">0g</b><span>Protein</span></div>
+          </div>
+          <div class="macro">
+            <div class="macro-bar"><span id="cBar" class="macro-fill cf"></span></div>
+            <div class="macro-meta"><b id="cVal">0g</b><span>Carbs</span></div>
+          </div>
+          <div class="macro">
+            <div class="macro-bar"><span id="fBar" class="macro-fill ff"></span></div>
+            <div class="macro-meta"><b id="fVal">0g</b><span>Fat</span></div>
+          </div>
+        </div>
+
+        <!-- Deficit / weight projection -->
+        <div class="deficit-strip" id="deficitStrip">
+          <span class="deficit-icon" id="deficitIcon">▾</span>
+          <span id="deficitText">Log your day to see the deficit breakdown.</span>
+        </div>
+
+        <!-- Meals -->
+        <div id="meals"></div>
+
+        <!-- Exercise summary in diary -->
+        <div class="meal" id="exerciseCard">
+          <div class="meal-head">
+            <h3>Exercise</h3>
+            <button class="add-link" data-goexercise>Log</button>
+          </div>
+          <div class="meal-items" id="exerciseItems"></div>
+        </div>
+      </section>
+
+      <!-- ===================== ADD FOOD ===================== -->
+      <section class="view hidden" id="view-add">
+        <div class="add-head">
+          <h2>Add food</h2>
+          <span class="add-meal-tag" id="addMealTag">Breakfast</span>
+        </div>
+
+        <div class="search-row">
+          <input type="search" id="foodSearch" placeholder="Search foods (e.g. banana, oats, chicken)…" autocomplete="off" />
+          <button id="searchBtn" class="primary-btn">Search</button>
+        </div>
+
+        <div id="searchState" class="hint"></div>
+
+        <!-- Favorites -->
+        <div class="list-block" id="favBlock">
+          <div class="list-head"><h4>★ Favorites</h4><span class="list-sub">your go-to ingredients</span></div>
+          <div id="favList" class="chip-list"></div>
+        </div>
+
+        <!-- Recently used -->
+        <div class="list-block" id="recentBlock">
+          <div class="list-head"><h4>Recently used</h4></div>
+          <div id="recentList" class="chip-list"></div>
+        </div>
+
+        <!-- Search results -->
+        <div class="list-block hidden" id="resultsBlock">
+          <div class="list-head"><h4>Results</h4></div>
+          <div id="resultsList" class="result-list"></div>
+        </div>
+      </section>
+
+      <!-- ===================== EXERCISE ===================== -->
+      <section class="view hidden" id="view-exercise">
+        <h2>Exercise</h2>
+        <p class="muted">Add distance or steps — calories are estimated from your body weight and credited back to today's budget.</p>
+
+        <div class="ex-grid">
+          <div class="ex-card">
+            <h4>🏃 Distance</h4>
+            <label>Activity
+              <select id="exActivity">
+                <option value="run">Running</option>
+                <option value="walk">Walking</option>
+                <option value="cycle">Cycling</option>
+              </select>
+            </label>
+            <label>Miles
+              <input type="number" id="exMiles" min="0" step="0.1" placeholder="e.g. 3.0" />
+            </label>
+            <div class="ex-est" id="exMilesEst">≈ 0 cal</div>
+            <button class="primary-btn" id="exAddMiles">Add distance</button>
+          </div>
+
+          <div class="ex-card">
+            <h4>👟 Steps</h4>
+            <label>Steps today
+              <input type="number" id="exSteps" min="0" step="100" placeholder="e.g. 8000" />
+            </label>
+            <div class="ex-est" id="exStepsEst">≈ 0 cal · 0 mi</div>
+            <button class="primary-btn" id="exAddSteps">Set steps</button>
+          </div>
+        </div>
+
+        <div class="list-block">
+          <div class="list-head"><h4>Today's activity</h4></div>
+          <div id="exLogList" class="result-list"></div>
+        </div>
+      </section>
+
+      <!-- ===================== PROFILE ===================== -->
+      <section class="view hidden" id="view-profile">
+        <h2>Profile &amp; goals</h2>
+        <p class="muted">Used to estimate your calorie target. Everything is stored privately in this browser.</p>
+
+        <div class="form-grid">
+          <label>Sex
+            <select id="pfSex"><option value="female">Female</option><option value="male">Male</option></select>
+          </label>
+          <label>Age
+            <input type="number" id="pfAge" min="10" max="100" />
+          </label>
+          <label>Height (cm)
+            <input type="number" id="pfHeight" min="120" max="230" />
+          </label>
+          <label>Current weight (lb)
+            <input type="number" id="pfWeight" min="60" max="600" step="0.1" />
+          </label>
+          <label>Goal weight (lb)
+            <input type="number" id="pfGoal" min="60" max="600" step="0.1" />
+          </label>
+          <label>Activity level
+            <select id="pfActivity">
+              <option value="1.2">Sedentary</option>
+              <option value="1.375">Lightly active</option>
+              <option value="1.55">Moderately active</option>
+              <option value="1.725">Very active</option>
+              <option value="1.9">Athlete</option>
+            </select>
+          </label>
+          <label>Pace
+            <select id="pfPace">
+              <option value="0.25">Gentle · 0.25 lb/week</option>
+              <option value="0.5">Steady · 0.5 lb/week</option>
+              <option value="1">Standard · 1 lb/week</option>
+              <option value="1.5">Aggressive · 1.5 lb/week</option>
+              <option value="0">Maintain weight</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="goal-preview" id="goalPreview"></div>
+
+        <details class="settings-adv">
+          <summary>USDA food database key (optional)</summary>
+          <p class="muted small">Food search uses the free USDA FoodData Central API. A shared demo key works but is rate-limited — grab your own free key in ~30 seconds for smooth search.</p>
+          <label>API key
+            <input type="text" id="pfUsdaKey" placeholder="DEMO_KEY" autocomplete="off" spellcheck="false" />
+          </label>
+          <a class="link" href="https://fdc.nal.usda.gov/api-key-signup.html" target="_blank" rel="noopener">Get a free USDA API key →</a>
+        </details>
+
+        <div class="profile-actions">
+          <button class="primary-btn" id="saveProfile">Save</button>
+          <button class="ghost-btn" id="exportData">Export data</button>
+          <button class="ghost-btn danger" id="resetData">Erase all data</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom nav -->
+    <nav class="tabbar">
+      <button class="tab active" data-view="today"><span class="ti">▤</span>Diary</button>
+      <button class="tab" data-view="add"><span class="ti">＋</span>Add</button>
+      <button class="tab" data-view="exercise"><span class="ti">🏃</span>Exercise</button>
+      <button class="tab" data-view="profile"><span class="ti">◉</span>Profile</button>
+    </nav>
+  </div>
+
+  <!-- ===================== QUANTITY MODAL ===================== -->
+  <div class="modal-backdrop hidden" id="qtyModal">
+    <div class="modal">
+      <button class="modal-close" id="qtyClose" aria-label="Close">×</button>
+      <h3 id="qtyName">Food</h3>
+      <p class="qty-brand muted small" id="qtyBrand"></p>
+
+      <div class="qty-controls">
+        <label>Amount
+          <input type="number" id="qtyAmount" min="0" step="0.1" value="100" />
+        </label>
+        <label>Unit
+          <select id="qtyUnit"></select>
+        </label>
+        <label>Meal
+          <select id="qtyMeal">
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+            <option value="snacks">Snacks</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="qty-nutri" id="qtyNutri"></div>
+
+      <label class="fav-toggle"><input type="checkbox" id="qtyFav" /> Keep as a favorite ingredient</label>
+
+      <div class="modal-actions">
+        <button class="ghost-btn" id="qtyCancel">Cancel</button>
+        <button class="primary-btn" id="qtyAdd">Add to diary</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="fitness.js"></script>
+</body>
+</html>
