@@ -12,7 +12,26 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="page">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="site-nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a href="#top" class="nav-brand">Walden &amp; Finch</a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#top">Home</a></li>
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page" id="top">
     <header class="hero">
       <div class="logo-frame">
         <img src="assets/logo-black.png" alt="Walden & Finch logo — finches on branches" class="logo" />
@@ -24,13 +43,26 @@
 
     <div class="pattern-strip" aria-hidden="true"></div>
 
-    <main>
-      <section class="coming-soon">
+    <main id="main">
+      <section class="coming-soon" id="shop">
         <h2 class="section-eyebrow">Coming soon</h2>
         <p class="lede">
           Small-batch goods, poured and cured by hand. Soy + beeswax candles,
           natural soaps, and seasonal scents — arriving shortly.
         </p>
+      </section>
+
+      <section class="about" id="about">
+        <h2 class="section-eyebrow">About</h2>
+        <p class="lede">
+          Walden &amp; Finch is a small New York studio crafting soaps and candles
+          in tiny batches. Every bar is cut by hand and every candle poured to order,
+          using natural ingredients and scents inspired by the seasons.
+        </p>
+      </section>
+
+      <section class="contact-section" id="contact">
+        <h2 class="section-eyebrow">Contact</h2>
         <p class="contact">
           For wholesale or to be notified at launch:
           <a href="mailto:waldenandfinch@pm.me">waldenandfinch@pm.me</a>
@@ -47,6 +79,33 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile navigation toggle
+    (function () {
+      var toggle = document.querySelector('.nav-toggle');
+      var menu = document.getElementById('nav-menu');
+      if (!toggle || !menu) return;
+
+      function closeMenu() {
+        menu.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+
+      toggle.addEventListener('click', function () {
+        var isOpen = menu.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      // Close the menu when a link is tapped (mobile)
+      menu.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') closeMenu();
+      });
+
+      // Close on Escape
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeMenu();
+      });
+    })();
   </script>
 </body>
 </html>
